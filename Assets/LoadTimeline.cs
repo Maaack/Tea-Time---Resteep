@@ -12,8 +12,13 @@ public class LoadTimeline : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
        PlayableDirector playableDirector = animator.GetComponent<PlayableDirector>();
-       playableDirector.playableAsset = timelineAsset;
-       playableDirector.Play();
+       if (timelineAsset is null)
+       {
+            playableDirector.Stop();
+       } else {
+            playableDirector.playableAsset = timelineAsset;
+            playableDirector.Play();
+       }
     }
 
 }
