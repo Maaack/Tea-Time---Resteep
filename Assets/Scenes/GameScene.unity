@@ -1114,6 +1114,7 @@ GameObject:
   - component: {fileID: 1644287893}
   - component: {fileID: 1644287894}
   - component: {fileID: 1644287895}
+  - component: {fileID: 1644287896}
   m_Layer: 0
   m_Name: AnimatedScene
   m_TagString: Untagged
@@ -1130,7 +1131,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1644287888}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 0f7b074240ee15c4ea8a27626bd106dd, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 45742a283d3321c4494a28237fea5e38, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -1346,6 +1347,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPhase: 0
+--- !u!114 &1644287896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644287888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b68776ceab50c44ea1ae57e0a695da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1881041092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,8 +1369,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1881041093}
   - component: {fileID: 1881041094}
+  - component: {fileID: 1881041095}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Fluid Simulator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1372,8 +1386,8 @@ Transform:
   m_GameObject: {fileID: 1881041092}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0038, y: -0.0465, z: -10}
-  m_LocalScale: {x: 3.4654152, y: 4.8944244, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 344, y: 490, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1367925996}
@@ -1398,7 +1412,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 448389d4b12cb5348b60c99f5469535f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1419,8 +1433,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: d883cb1cfd26f1842ad0948d816d68e1, type: 3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1430,6 +1444,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1881041095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881041092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e01a732d32f76438d65e68776b1556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2064792377
 GameObject:
   m_ObjectHideFlags: 0
