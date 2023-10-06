@@ -53,8 +53,8 @@ public class CameraFluidSimulation : MonoBehaviour
         }
 
         // Display the result
+        Graphics.Blit(sourceTexture, persistentRenderTexture);
         Graphics.Blit(sourceTexture, destination);
-        persistentRenderTexture = sourceTexture;
         RenderTexture.ReleaseTemporary(sourceTexture);
     }
     
