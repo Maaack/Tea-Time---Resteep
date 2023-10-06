@@ -9,7 +9,9 @@ public class CameraFluidSimulation : MonoBehaviour
     public Output showOutput = Output.Velocity;
     public bool runVelocity = true;
     public bool runViscosity = true;
+    public bool runPressure = true;
     public int numViscosityPasses = 50;
+    public int numPressurePasses = 80;
     private RenderTexture persistentRenderTexture;
     public void ApplyVelocityForce(Vector2 position, Vector2 vector) 
     {
@@ -58,6 +60,25 @@ public class CameraFluidSimulation : MonoBehaviour
         Graphics.Blit(velocityTexture, vorticityTexture, velocityMaterial, 2);
         RenderTexture divergenceTexture = RenderTexture.GetTemporary(source.width, source.height);
         Graphics.Blit(vorticityTexture, divergenceTexture, velocityMaterial, 3);
+        velocityMaterial.SetTexture("_DivergenceTex", divergenceTexture);
+        RenderTexture pressureTexture = RenderTexture.GetTemporary(source.width, source.height);
+        if (runPressure)
+        {
+            for (int i = 0; i < numPressurePasses; i++)
+            {
+                RenderTexture destinationTexture = RenderTexture.GetTemporary(source.width, source.height);
+                destinationTexture.filterMode = FilterMode.Bilinear;
+
+                Graphics.Blit(pressureTexture, destinationTexture, velocityMaterial, 4);
+
+                RenderTexture.ReleaseTemporary(pressureTexture);
+                pressureTexture = destinationTexture;
+            }
+        }
+        velocityMaterial.SetTexture("_PressureTex", pressureTexture);
+        RenderTexture finalTexture = RenderTexture.GetTemporary(source.width, source.height);
+        Graphics.Blit(velocityTexture, finalTexture, velocityMaterial, 5);
+
 
         switch(showOutput)
         {
@@ -70,12 +91,16 @@ public class CameraFluidSimulation : MonoBehaviour
                 Graphics.Blit(vorticityTexture, destination);
                 break;
             case Output.Divergence:
-                Graphics.Blit(vorticityTexture, persistentRenderTexture);
+                Graphics.Blit(velocityTexture, persistentRenderTexture);
                 Graphics.Blit(divergenceTexture, destination);
                 break;
             case Output.Pressure:
-                Graphics.Blit(velocityTexture, persistentRenderTexture);
-                Graphics.Blit(velocityTexture, destination);
+                Graphics.Blit(finalTexture, persistentRenderTexture);
+                Graphics.Blit(pressureTexture, destination);
+                break;
+            case Output.Final:
+                Graphics.Blit(finalTexture, persistentRenderTexture);
+                Graphics.Blit(finalTexture, destination);
                 break;
             default:
                 break;
@@ -85,7 +110,7 @@ public class CameraFluidSimulation : MonoBehaviour
         RenderTexture.ReleaseTemporary(velocityTexture);
         RenderTexture.ReleaseTemporary(vorticityTexture);
         RenderTexture.ReleaseTemporary(divergenceTexture);
-
+        RenderTexture.ReleaseTemporary(pressureTexture);
     }
     
 }

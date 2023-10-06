@@ -275,6 +275,7 @@ Shader "Unlit/FluidSimulationShader"
                 float4 vertex : SV_POSITION;
             };
 
+            sampler2D _DivergenceTex;
             sampler2D _MainTex;
             float2 _MainTex_TexelSize;
 
@@ -303,7 +304,7 @@ Shader "Unlit/FluidSimulationShader"
 
             half4 frag(v2f i) : SV_Target
             {
-                float2 velocity = jacobi(_MainTex, _MainTex, -1.0, 4.0, i.uv, _MainTex_TexelSize);
+                float2 velocity = jacobi(_MainTex, _DivergenceTex, -1.0, 4.0, i.uv, _MainTex_TexelSize);
                 return half4(velocity.x, velocity.y, -velocity.x, 1.0);
             }
             ENDCG
@@ -327,7 +328,7 @@ Shader "Unlit/FluidSimulationShader"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _VelocityTex;
+            sampler2D _PressureTex;
             sampler2D _MainTex;
             float2 _MainTex_TexelSize;
 
@@ -350,7 +351,7 @@ Shader "Unlit/FluidSimulationShader"
                 float topX = tex2D(_MainTex, uv + yOffset).x;
                 float bottomX = tex2D(_MainTex, uv - yOffset).x;
 
-                float2 velXY = tex2D(_VelocityTex, uv).xy;
+                float2 velXY = tex2D(_PressureTex, uv).xy;
                 velXY -= float2(rightX - leftX, topX - bottomX) * 0.5;
                 return half4(velXY, 0.0, 1.0);
             }
