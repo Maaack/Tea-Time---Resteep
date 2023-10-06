@@ -4,6 +4,7 @@ Shader "Unlit/FluidSimulationShader"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _BrushTexture ("Brush Texture", 2D) = "white" {}
+        _DivergenceScale ("Divergence Scale", float) = 0.5
     }
     SubShader
     {
@@ -307,7 +308,7 @@ Shader "Unlit/FluidSimulationShader"
             }
             ENDCG
         }
-           Pass
+        Pass
         {
             CGPROGRAM
             #pragma vertex vert
