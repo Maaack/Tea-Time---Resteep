@@ -230,8 +230,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityMaterial: {fileID: 2100000, guid: 9457456be091e2046a193e18478213bf, type: 2}
+  showOutput: 0
   runVelocity: 1
-  runViscosity: 1
+  runViscosity: 0
   numViscosityPasses: 50
 --- !u!114 &1432999193
 MonoBehaviour:
@@ -245,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b68776ceab50c44ea1ae57e0a695da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brushColor: {r: 0.5, g: 0.5, b: 0, a: 1}
+  brushColor: {r: 0.24528301, g: 0.24528301, b: 0, a: 1}
 --- !u!1 &1609875613
 GameObject:
   m_ObjectHideFlags: 0

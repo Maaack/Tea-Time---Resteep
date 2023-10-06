@@ -70,8 +70,8 @@ Shader "Unlit/FluidSimulationShader"
             }
 
             half4 frag(v2f i) : SV_Target {
-                float2 coord = i.uv - tex2D(_MainTex, i.uv).rg;
-                half4 finalColor = tex2D(_MainTex, coord);
+                float2 coord = i.uv - bilerp(_MainTex, i.uv, _MainTex_TexelSize.xy).rg;
+                half4 finalColor = bilerp(_MainTex, coord, _MainTex_TexelSize.xy);
                 if (hasBrush(i.uv)) {
                     finalColor = lerp(finalColor, _BrushColor, getBrushAlpha(i.uv));
                 }
