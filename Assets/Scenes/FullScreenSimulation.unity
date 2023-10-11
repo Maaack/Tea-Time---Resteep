@@ -230,10 +230,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityMaterial: {fileID: 2100000, guid: 9457456be091e2046a193e18478213bf, type: 2}
+  brushTexture: {fileID: 2800000, guid: de336f10dbccca5499665b605869010a, type: 3}
+  brushScale: 0.25
   showOutput: 0
   runVelocity: 1
-  runViscosity: 0
-  numViscosityPasses: 50
+  runViscosity: 1
+  runPressure: 1
+  numViscosityPasses: 1
+  numPressurePasses: 80
 --- !u!114 &1432999193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b68776ceab50c44ea1ae57e0a695da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brushColor: {r: 0.24528301, g: 0.24528301, b: 0, a: 1}
+  brushColor: {r: 0.019607844, g: 0, b: 0, a: 1}
 --- !u!1 &1609875613
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class CameraFluidSimulation : MonoBehaviour
 {
     public enum Output {Velocity, Vorticity, Divergence, Pressure, Final};
     public Material velocityMaterial;
+    public Texture brushTexture;
+    public float brushScale = 0.25f;
     public Output showOutput = Output.Velocity;
     public bool runVelocity = true;
     public bool runViscosity = true;
@@ -15,7 +17,8 @@ public class CameraFluidSimulation : MonoBehaviour
     private RenderTexture persistentRenderTexture;
     public void ApplyVelocityForce(Vector2 position, Vector2 vector) 
     {
-        velocityMaterial.SetVector("_BrushScale", new Vector2(0.5f, 0.5f));
+        velocityMaterial.SetTexture("_BrushTexture", brushTexture);
+        velocityMaterial.SetVector("_BrushScale", new Vector2(brushScale, brushScale));
         velocityMaterial.SetVector("_BrushCenterUV", position);
         velocityMaterial.SetVector("_BrushColor", new Vector4(vector.x, vector.y, 0, 1));
         velocityMaterial.SetInt("_BrushOn", 1);
@@ -61,6 +64,7 @@ public class CameraFluidSimulation : MonoBehaviour
         RenderTexture divergenceTexture = RenderTexture.GetTemporary(source.width, source.height);
         Graphics.Blit(vorticityTexture, divergenceTexture, velocityMaterial, 3);
         velocityMaterial.SetTexture("_DivergenceTex", divergenceTexture);
+        velocityMaterial.SetFloat("_DivergenceScale", 0.5f);
         RenderTexture pressureTexture = RenderTexture.GetTemporary(source.width, source.height);
         if (runPressure)
         {
@@ -83,15 +87,15 @@ public class CameraFluidSimulation : MonoBehaviour
         switch(showOutput)
         {
             case Output.Velocity:
-                Graphics.Blit(velocityTexture, persistentRenderTexture);
+                Graphics.Blit(finalTexture, persistentRenderTexture);
                 Graphics.Blit(velocityTexture, destination);
                 break;
             case Output.Vorticity:
-                Graphics.Blit(vorticityTexture, persistentRenderTexture);
+                Graphics.Blit(finalTexture, persistentRenderTexture);
                 Graphics.Blit(vorticityTexture, destination);
                 break;
             case Output.Divergence:
-                Graphics.Blit(velocityTexture, persistentRenderTexture);
+                Graphics.Blit(finalTexture, persistentRenderTexture);
                 Graphics.Blit(divergenceTexture, destination);
                 break;
             case Output.Pressure:

@@ -98,7 +98,6 @@ Shader "Unlit/FluidSimulationShader"
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
             };
-            float viscosityScale = 64.0;
 
             v2f vert(appdata v) {
                 v2f o;
@@ -106,33 +105,29 @@ Shader "Unlit/FluidSimulationShader"
                 o.uv = v.uv;
                 return o;
             }
-            float2 Jacobi(float2 uv, float2 texelSize, sampler2D velocityTexture, sampler2D b) {
+
+            float2 jacobi(sampler2D x, sampler2D b, float alpha, float beta, float2 uv, float2 texelSize)
+            {
                 float2 xOffset = float2(texelSize.x, 0.0);
                 float2 yOffset = float2(0.0, texelSize.y);
 
-                float2 xl = tex2D(velocityTexture, uv - xOffset).xy;
-                float2 xr = tex2D(velocityTexture, uv + xOffset).xy;
-                float2 xb = tex2D(velocityTexture, uv - yOffset).xy;
-                float2 xt = tex2D(velocityTexture, uv + yOffset).xy;
+                float2 xl = tex2D(x, uv - xOffset).xy;
+                float2 xr = tex2D(x, uv + xOffset).xy;
+                float2 xb = tex2D(x, uv - yOffset).xy;
+                float2 xt = tex2D(x, uv + yOffset).xy;
 
                 float2 bc = tex2D(b, uv).xy;
 
-                return (xl + xr + xb + xt + viscosityScale * bc) / (4.0 + viscosityScale);
+                return ((xl + xr + xb + xt + alpha * bc) / beta);
             }
+
 
             sampler2D _MainTex;
             float2 _MainTex_TexelSize;
 
             half4 frag(v2f i) : SV_Target {
-                float2 uv = i.uv;
-                float2 texelSize = 1.0 / _ScreenParams.zw; // Texel size
 
-                float2 velocity;
-                if (viscosityScale > 0.0) {
-                    velocity = Jacobi(uv, texelSize, _MainTex, _MainTex);
-                } else {
-                    velocity = tex2D(_MainTex, uv);
-                }
+                float2 velocity = jacobi(_MainTex, _MainTex, 1.0, 4.0, i.uv, _MainTex_TexelSize);
 
                 return float4(velocity, 0.0, 1.0);
             }
